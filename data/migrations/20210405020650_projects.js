@@ -28,11 +28,22 @@ exports.up = function(knex) {
 
             tbl.boolean('task_completed').defaultTo(0);
 
+            tbl.integer('project_id')
+                .unsigned()
+                .notNullable()
+                .references('projects.project_id')
+                .onDelete('CASCADE')
+                .onUpdate('CASCADE');
+        })
+        .createTable('project_resources', tbl => {
             tbl.
         })
   )
 };
 
 exports.down = function(knex) {
-  
+  return (
+      knex.schema
+        .dropTableIfExists('tasks')
+  )
 };
