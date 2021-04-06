@@ -11,6 +11,15 @@ router.get('/', (req, res, next) => {
         .catch(next)
 });
 
+router.get('/:id/projects', (req, res, next) => {
+    const { id } = req.params;
+    Resources.getProjectsByResource(id)
+        .then( projects => {
+            res.status(200).json(projects);
+        })
+        .catch(next)
+});
+
 router.post('/', (req, res, next) => {
     const newResource = req.body;
 
