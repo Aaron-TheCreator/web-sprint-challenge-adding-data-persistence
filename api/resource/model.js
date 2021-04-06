@@ -27,7 +27,7 @@ async function getProjectsByResource(id) {
         .where('r.resource_id', id);
     
     const mutDta = projects.map( (proj) => {
-        proj.project_completed = mutIntToBool(proj.proj_completed);
+        proj.project_completed = mutIntToBool(proj.project_completed);
     });
 
     return projects;
