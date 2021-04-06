@@ -34,9 +34,19 @@ async function createProject(project) {
     return newProj[0];
 }
 
+async function getProjectResources(id) {
+    const data = db.select('r.resource_name', 'r.resource_description').distinct().from('resources as r')
+        .leftJoin('project_resources as pr', 'r.resource_id', 'pr.resource_id')
+        .join('tasks as t', 'pr.task_id', 't.task_id')
+        .where('pr.project_id', id);
+
+    return data;
+}
+
 module.exports = {
     getAllProjects,
     createProject,
+    getProjectResources,
 };
 
 
