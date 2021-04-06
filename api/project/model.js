@@ -35,7 +35,7 @@ async function createProject(project) {
 }
 
 async function getProjectResources(id) {
-    const data = db.select('r.resource_name', 'r.resource_description').distinct().from('resources as r')
+    const data = await db.select('r.resource_name', 'r.resource_description').distinct().from('resources as r')
         .leftJoin('project_resources as pr', 'r.resource_id', 'pr.resource_id')
         .join('tasks as t', 'pr.task_id', 't.task_id')
         .where('pr.project_id', id);
@@ -43,10 +43,22 @@ async function getProjectResources(id) {
     return data;
 }
 
+async function getProjectTasks(id) {
+    const data = await db.select('t.*').from('projects as p')
+        .join('tasks as t', 'p.project_id', 't.project_id')
+        .where('p.project_id', id);
+    
+    const mutDta = data.map( (task) => {
+        task.task_completed = mutIntToBool(task.task_completed);
+    });
+    return data;
+}
+
 module.exports = {
     getAllProjects,
     createProject,
     getProjectResources,
+    getProjectTasks
 };
 
 

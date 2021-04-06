@@ -18,7 +18,16 @@ router.get('/:id/resources', (req, res, next) => {
             res.status(200).json(resources);
         })
         .catch(next)
-})
+});
+
+router.get('/:id/tasks', (req, res, next) => {
+    const { id } = req.params;
+    Projects.getProjectTasks(id)
+        .then( tasks => {
+            res.status(200).json(tasks);
+        })
+        .catch(next)
+});
 
 router.post('/', (req, res, next) => {
     const proj = req.body;
